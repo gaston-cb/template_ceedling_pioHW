@@ -1,0 +1,55 @@
+.program AMT223BV
+.side_set 2
+
+.wrap_target
+    set x,14 side 0b11 
+
+    irq wait 2  side 0b11 [1]
+    nop side 0b01  
+    nop side 0b00 [4]   
+bitloop:
+    nop side 0b01  [2]     ; --> one tick  
+    in pins, 1          side 0b01 [1]; --> segundo tick "  
+    jmp x-- bitloop     side 0b00 [4]; --> 
+    nop side 0b01 [2]
+    in pins, 1          side 0b01 [1]; --> ESTA ES DE PRUEBA 
+    
+    //! test for irq 0 or 1 ?? whats difference ?? 
+    //push side 0b01 
+    irq 0 rel side 0b01 ; --> generate irq 
+    //irq wait 1  side 0b11    ; --> generate irq    
+    // irq wait 0 side 0b11  
+
+.wrap
+
+% c-sdk {
+
+#include "hardware/gpio.h"
+
+///! portclk - 1 
+
+static inline void AMT223BV_init_hw(PIO pio, uint sm, uint prog_offs, uint n_bits,
+                                    uint pin_clk,uint pin_data)
+{ 
+
+    uint pin_cs = pin_clk + 1 ;     
+    pio_sm_config c = AMT223BV_program_get_default_config(prog_offs);
+    sm_config_set_clkdiv(&c, 62.5f); //0.1us --> 500us 5 ticks ! 
+    sm_config_set_sideset_pins(&c, pin_cs)         ;
+    sm_config_set_sideset_pins(&c,pin_clk)         ;
+    sm_config_set_in_pins(&c , pin_data)           ;  
+    sm_config_set_in_shift(&c, false, true, n_bits);
+    pio_sm_set_pins_with_mask(pio, sm, (1u<<pin_cs) | (1u<<pin_clk) | (1u<<pin_data),  (1u<<pin_cs) | (1u<<pin_clk) | (1u<<pin_data) );
+    pio_sm_set_pindirs_with_mask(pio, sm,(1u<<pin_cs) | (1u<<pin_clk) | (1u<<pin_data),  (1u<<pin_cs) | (1u<<pin_clk) | (0u<<pin_data));
+
+
+    pio_gpio_init(pio,pin_clk) ; 
+    pio_gpio_init(pio,pin_data) ; 
+    pio_gpio_init(pio,pin_cs) ; 
+
+    
+    pio_sm_init(pio, sm, prog_offs, &c) ; 
+    pio_sm_set_enabled(pio, sm, true);
+}
+
+%}

@@ -1,0 +1,6 @@
+modificar aliases:true en los siguientes archivos y lineas 
+
+
+bin\ceedling:278: yaml_options = YAML.load_file(main_filepath, aliases:true)
+lib\ceedling\yaml_wrapper.rb:8: return YAML.load(ERB.new(File.read(filepath)).result, aliases:true)
+
