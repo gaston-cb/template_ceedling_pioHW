@@ -9,7 +9,7 @@
 
 // #include "pico.h"
 // #include "hardware/address_mapped.h"
-// #include "hardware/structs/pio.h"
+#include "hardware/structs/pio.h"
 // #include "hardware/gpio.h"
 // #include "hardware/regs/dreq.h"
 // #include "hardware/pio_instructions.h"
