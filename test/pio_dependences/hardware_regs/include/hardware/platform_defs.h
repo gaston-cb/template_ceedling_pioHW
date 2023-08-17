@@ -24,7 +24,7 @@
 #define NUM_IRQS 32u
 #define NUM_USER_IRQS 6u
 #define NUM_PIOS 2u
-#define NUM_PIO_STATE_MACHINES _u(4)
+#define NUM_PIO_STATE_MACHINES 4u
 #define NUM_PWM_SLICES _u(8)
 #define NUM_SPIN_LOCKS _u(32)
 #define NUM_UARTS _u(2)
