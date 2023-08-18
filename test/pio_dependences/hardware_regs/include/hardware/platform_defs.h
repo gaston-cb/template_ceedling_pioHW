@@ -25,18 +25,18 @@
 #define NUM_USER_IRQS 6u
 #define NUM_PIOS 2u
 #define NUM_PIO_STATE_MACHINES 4u
-#define NUM_PWM_SLICES _u(8)
-#define NUM_SPIN_LOCKS _u(32)
-#define NUM_UARTS _u(2)
-#define NUM_I2CS _u(2)
-#define NUM_SPIS _u(2)
-#define NUM_TIMERS _u(4)
-#define NUM_ADC_CHANNELS _u(5)
+#define NUM_PWM_SLICES 8u
+#define NUM_SPIN_LOCKS 32u
+#define NUM_UARTS 2u
+#define NUM_I2CS 2u
+#define NUM_SPIS 2u
+#define NUM_TIMERS 4u
+#define NUM_ADC_CHANNELS 5u
 
-#define NUM_BANK0_GPIOS _u(30)
-#define NUM_QSPI_GPIOS _u(6)
+#define NUM_BANK0_GPIOS 30u
+#define NUM_QSPI_GPIOS 6u
 
-#define PIO_INSTRUCTION_COUNT _u(32)
+#define PIO_INSTRUCTION_COUNT 32u
 
 // PICO_CONFIG: XOSC_KHZ, The crystal oscillator frequency in kHz, type=int, default=12000, advanced=true, group=hardware_base
 // NOTE:  The system and USB clocks are generated from the frequency using two PLLs.
@@ -44,17 +44,17 @@
 // override the defaults which live in src/rp2_common/hardware_clocks/include/hardware/clocks.h
 // Please see the comments there about calculating the new PLL setting values.
 #ifndef XOSC_KHZ
-#define XOSC_KHZ _u(12000)
+#define XOSC_KHZ 12000u
 #endif
 
 // PICO_CONFIG: SYS_CLK_KHZ, The system operating frequency in kHz, type=int, default=125000, advanced=true, group=hardware_base
 #ifndef SYS_CLK_KHZ
-#define SYS_CLK_KHZ _u(125000)
+#define SYS_CLK_KHZ 125000u
 #endif
 
 // PICO_CONFIG: USB_CLK_KHZ, USB clock frequency. Must be 48MHz for the USB interface to operate correctly, type=int, default=48000, advanced=true, group=hardware_base
 #ifndef USB_CLK_KHZ
-#define USB_CLK_KHZ _u(48000)
+#define USB_CLK_KHZ 48000u
 #endif
 
 // For backwards compatibility define XOSC_MHZ if the frequency is indeed an integer number of Mhz.

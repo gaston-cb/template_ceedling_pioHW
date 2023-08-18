@@ -29,18 +29,6 @@ static uint state_machine_number ;
 #define READ_BITS_ENCODER 0x3FFF
 
 
-
-
-
-
-
-
-
-
-
-
-
-
 void cb_pio_irq(void){
     pioSM->irq = 0x01 ; 
     uint32_t data = pioSM->rxf[state_machine_number] ;  
@@ -81,7 +69,7 @@ void cb_pio_irq(void){
 
 
 
-void initHW(uint port_clk,uint port_data) { 
+void initHW(int port_clk,int port_data) { 
     
     state_machine_number = pio_claim_unused_sm(pioSM, true);
     uint offset = pio_add_program(pioSM, &AMT223BV_program);

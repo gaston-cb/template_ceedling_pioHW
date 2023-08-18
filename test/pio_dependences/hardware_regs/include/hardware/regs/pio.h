@@ -880,10 +880,10 @@
 //               TX FIFO is disabled as a result (always reads as both full and
 //               empty).
 //               FIFOs are flushed when this bit is changed.
-#define PIO_SM0_SHIFTCTRL_FJOIN_RX_RESET  _u(0x0)
-#define PIO_SM0_SHIFTCTRL_FJOIN_RX_BITS   _u(0x80000000)
-#define PIO_SM0_SHIFTCTRL_FJOIN_RX_MSB    _u(31)
-#define PIO_SM0_SHIFTCTRL_FJOIN_RX_LSB    _u(31)
+#define PIO_SM0_SHIFTCTRL_FJOIN_RX_RESET  0x0u
+#define PIO_SM0_SHIFTCTRL_FJOIN_RX_BITS   0x80000000u
+#define PIO_SM0_SHIFTCTRL_FJOIN_RX_MSB    31u
+#define PIO_SM0_SHIFTCTRL_FJOIN_RX_LSB    31u
 #define PIO_SM0_SHIFTCTRL_FJOIN_RX_ACCESS "RW"
 // -----------------------------------------------------------------------------
 // Field       : PIO_SM0_SHIFTCTRL_FJOIN_TX
@@ -892,76 +892,76 @@
 //               RX FIFO is disabled as a result (always reads as both full and
 //               empty).
 //               FIFOs are flushed when this bit is changed.
-#define PIO_SM0_SHIFTCTRL_FJOIN_TX_RESET  _u(0x0)
-#define PIO_SM0_SHIFTCTRL_FJOIN_TX_BITS   _u(0x40000000)
-#define PIO_SM0_SHIFTCTRL_FJOIN_TX_MSB    _u(30)
-#define PIO_SM0_SHIFTCTRL_FJOIN_TX_LSB    _u(30)
+#define PIO_SM0_SHIFTCTRL_FJOIN_TX_RESET  0x0u
+#define PIO_SM0_SHIFTCTRL_FJOIN_TX_BITS   0x40000000u
+#define PIO_SM0_SHIFTCTRL_FJOIN_TX_MSB    30u
+#define PIO_SM0_SHIFTCTRL_FJOIN_TX_LSB    30u
 #define PIO_SM0_SHIFTCTRL_FJOIN_TX_ACCESS "RW"
 // -----------------------------------------------------------------------------
 // Field       : PIO_SM0_SHIFTCTRL_PULL_THRESH
 // Description : Number of bits shifted out of OSR before autopull, or
 //               conditional pull (PULL IFEMPTY), will take place.
 //               Write 0 for value of 32.
-#define PIO_SM0_SHIFTCTRL_PULL_THRESH_RESET  _u(0x00)
-#define PIO_SM0_SHIFTCTRL_PULL_THRESH_BITS   _u(0x3e000000)
-#define PIO_SM0_SHIFTCTRL_PULL_THRESH_MSB    _u(29)
-#define PIO_SM0_SHIFTCTRL_PULL_THRESH_LSB    _u(25)
+#define PIO_SM0_SHIFTCTRL_PULL_THRESH_RESET  0x00u
+#define PIO_SM0_SHIFTCTRL_PULL_THRESH_BITS   0x3e000000u
+#define PIO_SM0_SHIFTCTRL_PULL_THRESH_MSB    29u
+#define PIO_SM0_SHIFTCTRL_PULL_THRESH_LSB    25u
 #define PIO_SM0_SHIFTCTRL_PULL_THRESH_ACCESS "RW"
 // -----------------------------------------------------------------------------
 // Field       : PIO_SM0_SHIFTCTRL_PUSH_THRESH
 // Description : Number of bits shifted into ISR before autopush, or conditional
 //               push (PUSH IFFULL), will take place.
 //               Write 0 for value of 32.
-#define PIO_SM0_SHIFTCTRL_PUSH_THRESH_RESET  _u(0x00)
-#define PIO_SM0_SHIFTCTRL_PUSH_THRESH_BITS   _u(0x01f00000)
-#define PIO_SM0_SHIFTCTRL_PUSH_THRESH_MSB    _u(24)
-#define PIO_SM0_SHIFTCTRL_PUSH_THRESH_LSB    _u(20)
+#define PIO_SM0_SHIFTCTRL_PUSH_THRESH_RESET  0x00u
+#define PIO_SM0_SHIFTCTRL_PUSH_THRESH_BITS   0x01f00000u
+#define PIO_SM0_SHIFTCTRL_PUSH_THRESH_MSB    24u
+#define PIO_SM0_SHIFTCTRL_PUSH_THRESH_LSB    20u
 #define PIO_SM0_SHIFTCTRL_PUSH_THRESH_ACCESS "RW"
 // -----------------------------------------------------------------------------
 // Field       : PIO_SM0_SHIFTCTRL_OUT_SHIFTDIR
 // Description : 1 = shift out of output shift register to right. 0 = to left.
-#define PIO_SM0_SHIFTCTRL_OUT_SHIFTDIR_RESET  _u(0x1)
-#define PIO_SM0_SHIFTCTRL_OUT_SHIFTDIR_BITS   _u(0x00080000)
-#define PIO_SM0_SHIFTCTRL_OUT_SHIFTDIR_MSB    _u(19)
-#define PIO_SM0_SHIFTCTRL_OUT_SHIFTDIR_LSB    _u(19)
+#define PIO_SM0_SHIFTCTRL_OUT_SHIFTDIR_RESET  0x1u
+#define PIO_SM0_SHIFTCTRL_OUT_SHIFTDIR_BITS   0x00080000u
+#define PIO_SM0_SHIFTCTRL_OUT_SHIFTDIR_MSB    19u
+#define PIO_SM0_SHIFTCTRL_OUT_SHIFTDIR_LSB    19u
 #define PIO_SM0_SHIFTCTRL_OUT_SHIFTDIR_ACCESS "RW"
 // -----------------------------------------------------------------------------
 // Field       : PIO_SM0_SHIFTCTRL_IN_SHIFTDIR
 // Description : 1 = shift input shift register to right (data enters from
 //               left). 0 = to left.
-#define PIO_SM0_SHIFTCTRL_IN_SHIFTDIR_RESET  _u(0x1)
-#define PIO_SM0_SHIFTCTRL_IN_SHIFTDIR_BITS   _u(0x00040000)
-#define PIO_SM0_SHIFTCTRL_IN_SHIFTDIR_MSB    _u(18)
-#define PIO_SM0_SHIFTCTRL_IN_SHIFTDIR_LSB    _u(18)
+#define PIO_SM0_SHIFTCTRL_IN_SHIFTDIR_RESET  0x1u
+#define PIO_SM0_SHIFTCTRL_IN_SHIFTDIR_BITS   0x00040000u
+#define PIO_SM0_SHIFTCTRL_IN_SHIFTDIR_MSB    18u
+#define PIO_SM0_SHIFTCTRL_IN_SHIFTDIR_LSB    18u
 #define PIO_SM0_SHIFTCTRL_IN_SHIFTDIR_ACCESS "RW"
 // -----------------------------------------------------------------------------
 // Field       : PIO_SM0_SHIFTCTRL_AUTOPULL
 // Description : Pull automatically when the output shift register is emptied,
 //               i.e. on or following an OUT instruction which causes the output
 //               shift counter to reach or exceed PULL_THRESH.
-#define PIO_SM0_SHIFTCTRL_AUTOPULL_RESET  _u(0x0)
-#define PIO_SM0_SHIFTCTRL_AUTOPULL_BITS   _u(0x00020000)
-#define PIO_SM0_SHIFTCTRL_AUTOPULL_MSB    _u(17)
-#define PIO_SM0_SHIFTCTRL_AUTOPULL_LSB    _u(17)
+#define PIO_SM0_SHIFTCTRL_AUTOPULL_RESET  0x0u
+#define PIO_SM0_SHIFTCTRL_AUTOPULL_BITS   0x00020000u
+#define PIO_SM0_SHIFTCTRL_AUTOPULL_MSB    17u
+#define PIO_SM0_SHIFTCTRL_AUTOPULL_LSB    17u
 #define PIO_SM0_SHIFTCTRL_AUTOPULL_ACCESS "RW"
 // -----------------------------------------------------------------------------
 // Field       : PIO_SM0_SHIFTCTRL_AUTOPUSH
 // Description : Push automatically when the input shift register is filled,
 //               i.e. on an IN instruction which causes the input shift counter
 //               to reach or exceed PUSH_THRESH.
-#define PIO_SM0_SHIFTCTRL_AUTOPUSH_RESET  _u(0x0)
-#define PIO_SM0_SHIFTCTRL_AUTOPUSH_BITS   _u(0x00010000)
-#define PIO_SM0_SHIFTCTRL_AUTOPUSH_MSB    _u(16)
-#define PIO_SM0_SHIFTCTRL_AUTOPUSH_LSB    _u(16)
+#define PIO_SM0_SHIFTCTRL_AUTOPUSH_RESET  0x0u
+#define PIO_SM0_SHIFTCTRL_AUTOPUSH_BITS   0x00010000u
+#define PIO_SM0_SHIFTCTRL_AUTOPUSH_MSB    16u
+#define PIO_SM0_SHIFTCTRL_AUTOPUSH_LSB    16u
 #define PIO_SM0_SHIFTCTRL_AUTOPUSH_ACCESS "RW"
 // =============================================================================
 // Register    : PIO_SM0_ADDR
 // Description : Current instruction address of state machine 0
-#define PIO_SM0_ADDR_OFFSET _u(0x000000d4)
-#define PIO_SM0_ADDR_BITS   _u(0x0000001f)
-#define PIO_SM0_ADDR_RESET  _u(0x00000000)
-#define PIO_SM0_ADDR_MSB    _u(4)
-#define PIO_SM0_ADDR_LSB    _u(0)
+#define PIO_SM0_ADDR_OFFSET 0x000000d4u
+#define PIO_SM0_ADDR_BITS   0x0000001fu
+#define PIO_SM0_ADDR_RESET  0x00000000u
+#define PIO_SM0_ADDR_MSB    4u
+#define PIO_SM0_ADDR_LSB    0u
 #define PIO_SM0_ADDR_ACCESS "RO"
 // =============================================================================
 // Register    : PIO_SM0_INSTR
@@ -969,46 +969,46 @@
 //               machine 0's program counter
 //               Write to execute an instruction immediately (including jumps)
 //               and then resume execution.
-#define PIO_SM0_INSTR_OFFSET _u(0x000000d8)
-#define PIO_SM0_INSTR_BITS   _u(0x0000ffff)
+#define PIO_SM0_INSTR_OFFSET 0x000000d8u
+#define PIO_SM0_INSTR_BITS   0x0000ffffu
 #define PIO_SM0_INSTR_RESET  "-"
-#define PIO_SM0_INSTR_MSB    _u(15)
-#define PIO_SM0_INSTR_LSB    _u(0)
+#define PIO_SM0_INSTR_MSB    15u
+#define PIO_SM0_INSTR_LSB    0u
 #define PIO_SM0_INSTR_ACCESS "RW"
 // =============================================================================
 // Register    : PIO_SM0_PINCTRL
 // Description : State machine pin control
-#define PIO_SM0_PINCTRL_OFFSET _u(0x000000dc)
-#define PIO_SM0_PINCTRL_BITS   _u(0xffffffff)
-#define PIO_SM0_PINCTRL_RESET  _u(0x14000000)
+#define PIO_SM0_PINCTRL_OFFSET 0x000000dcu
+#define PIO_SM0_PINCTRL_BITS   0xffffffffu
+#define PIO_SM0_PINCTRL_RESET  0x14000000u
 // -----------------------------------------------------------------------------
 // Field       : PIO_SM0_PINCTRL_SIDESET_COUNT
 // Description : The number of MSBs of the Delay/Side-set instruction field
 //               which are used for side-set. Inclusive of the enable bit, if
 //               present. Minimum of 0 (all delay bits, no side-set) and maximum
 //               of 5 (all side-set, no delay).
-#define PIO_SM0_PINCTRL_SIDESET_COUNT_RESET  _u(0x0)
-#define PIO_SM0_PINCTRL_SIDESET_COUNT_BITS   _u(0xe0000000)
-#define PIO_SM0_PINCTRL_SIDESET_COUNT_MSB    _u(31)
-#define PIO_SM0_PINCTRL_SIDESET_COUNT_LSB    _u(29)
+#define PIO_SM0_PINCTRL_SIDESET_COUNT_RESET  0x0u
+#define PIO_SM0_PINCTRL_SIDESET_COUNT_BITS   0xe0000000u
+#define PIO_SM0_PINCTRL_SIDESET_COUNT_MSB    31u
+#define PIO_SM0_PINCTRL_SIDESET_COUNT_LSB    29u
 #define PIO_SM0_PINCTRL_SIDESET_COUNT_ACCESS "RW"
 // -----------------------------------------------------------------------------
 // Field       : PIO_SM0_PINCTRL_SET_COUNT
 // Description : The number of pins asserted by a SET. In the range 0 to 5
 //               inclusive.
-#define PIO_SM0_PINCTRL_SET_COUNT_RESET  _u(0x5)
-#define PIO_SM0_PINCTRL_SET_COUNT_BITS   _u(0x1c000000)
-#define PIO_SM0_PINCTRL_SET_COUNT_MSB    _u(28)
-#define PIO_SM0_PINCTRL_SET_COUNT_LSB    _u(26)
+#define PIO_SM0_PINCTRL_SET_COUNT_RESET  0x5u
+#define PIO_SM0_PINCTRL_SET_COUNT_BITS   0x1c000000u
+#define PIO_SM0_PINCTRL_SET_COUNT_MSB    28u
+#define PIO_SM0_PINCTRL_SET_COUNT_LSB    26u
 #define PIO_SM0_PINCTRL_SET_COUNT_ACCESS "RW"
 // -----------------------------------------------------------------------------
 // Field       : PIO_SM0_PINCTRL_OUT_COUNT
 // Description : The number of pins asserted by an OUT PINS, OUT PINDIRS or MOV
 //               PINS instruction. In the range 0 to 32 inclusive.
-#define PIO_SM0_PINCTRL_OUT_COUNT_RESET  _u(0x00)
-#define PIO_SM0_PINCTRL_OUT_COUNT_BITS   _u(0x03f00000)
-#define PIO_SM0_PINCTRL_OUT_COUNT_MSB    _u(25)
-#define PIO_SM0_PINCTRL_OUT_COUNT_LSB    _u(20)
+#define PIO_SM0_PINCTRL_OUT_COUNT_RESET  0x00u
+#define PIO_SM0_PINCTRL_OUT_COUNT_BITS   0x03f00000u
+#define PIO_SM0_PINCTRL_OUT_COUNT_MSB    25u
+#define PIO_SM0_PINCTRL_OUT_COUNT_LSB    20u
 #define PIO_SM0_PINCTRL_OUT_COUNT_ACCESS "RW"
 // -----------------------------------------------------------------------------
 // Field       : PIO_SM0_PINCTRL_IN_BASE
@@ -1016,10 +1016,10 @@
 //               machine's IN data bus. Higher-numbered pins are mapped to
 //               consecutively more-significant data bits, with a modulo of 32
 //               applied to pin number.
-#define PIO_SM0_PINCTRL_IN_BASE_RESET  _u(0x00)
-#define PIO_SM0_PINCTRL_IN_BASE_BITS   _u(0x000f8000)
-#define PIO_SM0_PINCTRL_IN_BASE_MSB    _u(19)
-#define PIO_SM0_PINCTRL_IN_BASE_LSB    _u(15)
+#define PIO_SM0_PINCTRL_IN_BASE_RESET  0x00u
+#define PIO_SM0_PINCTRL_IN_BASE_BITS   0x000f8000u
+#define PIO_SM0_PINCTRL_IN_BASE_MSB    19u
+#define PIO_SM0_PINCTRL_IN_BASE_LSB    15u
 #define PIO_SM0_PINCTRL_IN_BASE_ACCESS "RW"
 // -----------------------------------------------------------------------------
 // Field       : PIO_SM0_PINCTRL_SIDESET_BASE
@@ -1030,20 +1030,20 @@
 //               least-significant bit of the side-set portion is the bit
 //               written to this pin, with more-significant bits written to
 //               higher-numbered pins.
-#define PIO_SM0_PINCTRL_SIDESET_BASE_RESET  _u(0x00)
-#define PIO_SM0_PINCTRL_SIDESET_BASE_BITS   _u(0x00007c00)
-#define PIO_SM0_PINCTRL_SIDESET_BASE_MSB    _u(14)
-#define PIO_SM0_PINCTRL_SIDESET_BASE_LSB    _u(10)
+#define PIO_SM0_PINCTRL_SIDESET_BASE_RESET  0x00u
+#define PIO_SM0_PINCTRL_SIDESET_BASE_BITS   0x00007c00u
+#define PIO_SM0_PINCTRL_SIDESET_BASE_MSB    14u
+#define PIO_SM0_PINCTRL_SIDESET_BASE_LSB    10u
 #define PIO_SM0_PINCTRL_SIDESET_BASE_ACCESS "RW"
 // -----------------------------------------------------------------------------
 // Field       : PIO_SM0_PINCTRL_SET_BASE
 // Description : The lowest-numbered pin that will be affected by a SET PINS or
 //               SET PINDIRS instruction. The data written to this pin is the
 //               least-significant bit of the SET data.
-#define PIO_SM0_PINCTRL_SET_BASE_RESET  _u(0x00)
-#define PIO_SM0_PINCTRL_SET_BASE_BITS   _u(0x000003e0)
-#define PIO_SM0_PINCTRL_SET_BASE_MSB    _u(9)
-#define PIO_SM0_PINCTRL_SET_BASE_LSB    _u(5)
+#define PIO_SM0_PINCTRL_SET_BASE_RESET  0x00u
+#define PIO_SM0_PINCTRL_SET_BASE_BITS   0x000003e0u
+#define PIO_SM0_PINCTRL_SET_BASE_MSB    9u
+#define PIO_SM0_PINCTRL_SET_BASE_LSB    5u
 #define PIO_SM0_PINCTRL_SET_BASE_ACCESS "RW"
 // -----------------------------------------------------------------------------
 // Field       : PIO_SM0_PINCTRL_OUT_BASE
@@ -1051,51 +1051,51 @@
 //               OUT PINDIRS or MOV PINS instruction. The data written to this
 //               pin will always be the least-significant bit of the OUT or MOV
 //               data.
-#define PIO_SM0_PINCTRL_OUT_BASE_RESET  _u(0x00)
-#define PIO_SM0_PINCTRL_OUT_BASE_BITS   _u(0x0000001f)
-#define PIO_SM0_PINCTRL_OUT_BASE_MSB    _u(4)
-#define PIO_SM0_PINCTRL_OUT_BASE_LSB    _u(0)
+#define PIO_SM0_PINCTRL_OUT_BASE_RESET  0x00u
+#define PIO_SM0_PINCTRL_OUT_BASE_BITS   0x0000001fu
+#define PIO_SM0_PINCTRL_OUT_BASE_MSB    4u
+#define PIO_SM0_PINCTRL_OUT_BASE_LSB    0u
 #define PIO_SM0_PINCTRL_OUT_BASE_ACCESS "RW"
 // =============================================================================
 // Register    : PIO_SM1_CLKDIV
 // Description : Clock divisor register for state machine 1
 //               Frequency = clock freq / (CLKDIV_INT + CLKDIV_FRAC / 256)
-#define PIO_SM1_CLKDIV_OFFSET _u(0x000000e0)
-#define PIO_SM1_CLKDIV_BITS   _u(0xffffff00)
-#define PIO_SM1_CLKDIV_RESET  _u(0x00010000)
+#define PIO_SM1_CLKDIV_OFFSET 0x000000e0u
+#define PIO_SM1_CLKDIV_BITS   0xffffff00u
+#define PIO_SM1_CLKDIV_RESET  0x00010000u
 // -----------------------------------------------------------------------------
 // Field       : PIO_SM1_CLKDIV_INT
 // Description : Effective frequency is sysclk/(int + frac/256).
 //               Value of 0 is interpreted as 65536. If INT is 0, FRAC must also
 //               be 0.
-#define PIO_SM1_CLKDIV_INT_RESET  _u(0x0001)
-#define PIO_SM1_CLKDIV_INT_BITS   _u(0xffff0000)
-#define PIO_SM1_CLKDIV_INT_MSB    _u(31)
-#define PIO_SM1_CLKDIV_INT_LSB    _u(16)
+#define PIO_SM1_CLKDIV_INT_RESET  0x0001u
+#define PIO_SM1_CLKDIV_INT_BITS   0xffff0000u
+#define PIO_SM1_CLKDIV_INT_MSB    31u
+#define PIO_SM1_CLKDIV_INT_LSB    16u
 #define PIO_SM1_CLKDIV_INT_ACCESS "RW"
 // -----------------------------------------------------------------------------
 // Field       : PIO_SM1_CLKDIV_FRAC
 // Description : Fractional part of clock divisor
-#define PIO_SM1_CLKDIV_FRAC_RESET  _u(0x00)
-#define PIO_SM1_CLKDIV_FRAC_BITS   _u(0x0000ff00)
-#define PIO_SM1_CLKDIV_FRAC_MSB    _u(15)
-#define PIO_SM1_CLKDIV_FRAC_LSB    _u(8)
+#define PIO_SM1_CLKDIV_FRAC_RESET  0x00u
+#define PIO_SM1_CLKDIV_FRAC_BITS   0x0000ff00u
+#define PIO_SM1_CLKDIV_FRAC_MSB    15u
+#define PIO_SM1_CLKDIV_FRAC_LSB    8u
 #define PIO_SM1_CLKDIV_FRAC_ACCESS "RW"
 // =============================================================================
 // Register    : PIO_SM1_EXECCTRL
 // Description : Execution/behavioural settings for state machine 1
-#define PIO_SM1_EXECCTRL_OFFSET _u(0x000000e4)
-#define PIO_SM1_EXECCTRL_BITS   _u(0xffffff9f)
-#define PIO_SM1_EXECCTRL_RESET  _u(0x0001f000)
+#define PIO_SM1_EXECCTRL_OFFSET 0x000000e4u
+#define PIO_SM1_EXECCTRL_BITS   0xffffff9fu
+#define PIO_SM1_EXECCTRL_RESET  0x0001f000u
 // -----------------------------------------------------------------------------
 // Field       : PIO_SM1_EXECCTRL_EXEC_STALLED
 // Description : If 1, an instruction written to SMx_INSTR is stalled, and
 //               latched by the state machine. Will clear to 0 once this
 //               instruction completes.
-#define PIO_SM1_EXECCTRL_EXEC_STALLED_RESET  _u(0x0)
-#define PIO_SM1_EXECCTRL_EXEC_STALLED_BITS   _u(0x80000000)
-#define PIO_SM1_EXECCTRL_EXEC_STALLED_MSB    _u(31)
-#define PIO_SM1_EXECCTRL_EXEC_STALLED_LSB    _u(31)
+#define PIO_SM1_EXECCTRL_EXEC_STALLED_RESET  0x0u
+#define PIO_SM1_EXECCTRL_EXEC_STALLED_BITS   0x80000000u
+#define PIO_SM1_EXECCTRL_EXEC_STALLED_MSB    31u
+#define PIO_SM1_EXECCTRL_EXEC_STALLED_LSB    31u
 #define PIO_SM1_EXECCTRL_EXEC_STALLED_ACCESS "RO"
 // -----------------------------------------------------------------------------
 // Field       : PIO_SM1_EXECCTRL_SIDE_EN
@@ -1105,28 +1105,28 @@
 //               on every instruction, but the maximum possible side-set width
 //               is reduced from 5 to 4. Note that the value of
 //               PINCTRL_SIDESET_COUNT is inclusive of this enable bit.
-#define PIO_SM1_EXECCTRL_SIDE_EN_RESET  _u(0x0)
-#define PIO_SM1_EXECCTRL_SIDE_EN_BITS   _u(0x40000000)
-#define PIO_SM1_EXECCTRL_SIDE_EN_MSB    _u(30)
-#define PIO_SM1_EXECCTRL_SIDE_EN_LSB    _u(30)
+#define PIO_SM1_EXECCTRL_SIDE_EN_RESET  0x0u
+#define PIO_SM1_EXECCTRL_SIDE_EN_BITS   0x40000000u
+#define PIO_SM1_EXECCTRL_SIDE_EN_MSB    30u
+#define PIO_SM1_EXECCTRL_SIDE_EN_LSB    30u
 #define PIO_SM1_EXECCTRL_SIDE_EN_ACCESS "RW"
 // -----------------------------------------------------------------------------
 // Field       : PIO_SM1_EXECCTRL_SIDE_PINDIR
 // Description : If 1, side-set data is asserted to pin directions, instead of
 //               pin values
-#define PIO_SM1_EXECCTRL_SIDE_PINDIR_RESET  _u(0x0)
-#define PIO_SM1_EXECCTRL_SIDE_PINDIR_BITS   _u(0x20000000)
-#define PIO_SM1_EXECCTRL_SIDE_PINDIR_MSB    _u(29)
-#define PIO_SM1_EXECCTRL_SIDE_PINDIR_LSB    _u(29)
+#define PIO_SM1_EXECCTRL_SIDE_PINDIR_RESET  0x0u
+#define PIO_SM1_EXECCTRL_SIDE_PINDIR_BITS   0x20000000u
+#define PIO_SM1_EXECCTRL_SIDE_PINDIR_MSB    29u
+#define PIO_SM1_EXECCTRL_SIDE_PINDIR_LSB    29u
 #define PIO_SM1_EXECCTRL_SIDE_PINDIR_ACCESS "RW"
 // -----------------------------------------------------------------------------
 // Field       : PIO_SM1_EXECCTRL_JMP_PIN
 // Description : The GPIO number to use as condition for JMP PIN. Unaffected by
 //               input mapping.
-#define PIO_SM1_EXECCTRL_JMP_PIN_RESET  _u(0x00)
-#define PIO_SM1_EXECCTRL_JMP_PIN_BITS   _u(0x1f000000)
-#define PIO_SM1_EXECCTRL_JMP_PIN_MSB    _u(28)
-#define PIO_SM1_EXECCTRL_JMP_PIN_LSB    _u(24)
+#define PIO_SM1_EXECCTRL_JMP_PIN_RESET  0x00
+#define PIO_SM1_EXECCTRL_JMP_PIN_BITS   0x1f000000
+#define PIO_SM1_EXECCTRL_JMP_PIN_MSB    28u
+#define PIO_SM1_EXECCTRL_JMP_PIN_LSB    24u
 #define PIO_SM1_EXECCTRL_JMP_PIN_ACCESS "RW"
 // -----------------------------------------------------------------------------
 // Field       : PIO_SM1_EXECCTRL_OUT_EN_SEL

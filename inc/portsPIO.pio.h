@@ -7,7 +7,7 @@
 #if !PICO_NO_HARDWARE
 #include "hardware/pio.h"
 #endif
-
+#include "pio_dependences/hardware_pio/include/hardware/pio.h"
 // -------- //
 // AMT223BV //
 // -------- //
@@ -44,7 +44,7 @@ static inline pio_sm_config AMT223BV_program_get_default_config(uint offset) {
     return c;
 }
 
-#include "hardware/gpio.h"
+//#include "hardware/gpio.h"
 ///! portclk - 1 
 static inline void AMT223BV_init_hw(PIO pio, uint sm, uint prog_offs, uint n_bits,
                                     uint pin_clk,uint pin_data)

@@ -10,10 +10,10 @@
 #define _HARDWARE_STRUCTS_PIO_H
 #define _REG_(x)
 #define _u(x) x ## u
-
+#include "hardware_regs/include/hardware/regs/addressmap.h"
 #include "hardware_regs/include/hardware/regs/pio.h"
 #include "hardware_regs/include/hardware/platform_defs.h"
-
+#include "hardware_regs/include/hardware/platform_defs.h"
 typedef volatile uint32_t io_rw_32;
 typedef const volatile uint32_t io_ro_32;
 typedef volatile uint32_t io_wo_32;
@@ -298,7 +298,7 @@ typedef struct {
 #define pio0_hw ((pio_hw_t *)PIO0_BASE)
 #define pio1_hw ((pio_hw_t *)PIO1_BASE)
 
-static_assert( NUM_PIO_STATE_MACHINES == 4, "");
-static_assert( PIO_INSTRUCTION_COUNT == 32, "");
+//static_assert( NUM_PIO_STATE_MACHINES == 4, "");
+//static_assert( PIO_INSTRUCTION_COUNT == 32, "");
 
 #endif

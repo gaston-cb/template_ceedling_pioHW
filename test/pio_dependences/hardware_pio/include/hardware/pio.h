@@ -6,10 +6,12 @@
 
 #ifndef _HARDWARE_PIO_H
 #define _HARDWARE_PIO_H
+#define bool_to_bit(x) ((uint)!!(x))
 
 // #include "pico.h"
 // #include "hardware/address_mapped.h"
 #include "hardware/structs/pio.h"
+#include <stdbool.h>
 // #include "hardware/gpio.h"
 // #include "hardware/regs/dreq.h"
 // #include "hardware/pio_instructions.h"
@@ -47,7 +49,7 @@
 extern "C" {
 #endif
 
-static_assert(PIO_SM0_SHIFTCTRL_FJOIN_RX_LSB == PIO_SM0_SHIFTCTRL_FJOIN_TX_LSB + 1, "");
+//static_assert(PIO_SM0_SHIFTCTRL_FJOIN_RX_LSB == PIO_SM0_SHIFTCTRL_FJOIN_TX_LSB + 1, "");
 
 /** \brief FIFO join states
  *  \ingroup hardware_pio
@@ -162,9 +164,9 @@ typedef struct {
  * \param in_base 0-31 First pin to use as input
  */
 static inline void sm_config_set_in_pins(pio_sm_config *c, uint in_base) {
-    valid_params_if(PIO, in_base < 32);
-    c->pinctrl = (c->pinctrl & ~PIO_SM0_PINCTRL_IN_BASE_BITS) |
-                 (in_base << PIO_SM0_PINCTRL_IN_BASE_LSB);
+   //valid_params_if(PIO, in_base < 32);
+   c->pinctrl = (c->pinctrl & ~PIO_SM0_PINCTRL_IN_BASE_BITS) |
+                (in_base << PIO_SM0_PINCTRL_IN_BASE_LSB);
 }
 
 /*! \brief Set the 'sideset' pins in a state machine configuration
@@ -176,11 +178,11 @@ static inline void sm_config_set_in_pins(pio_sm_config *c, uint in_base) {
  * \param sideset_base 0-31 base pin for 'side set'
  */
 static inline void sm_config_set_sideset_pins(pio_sm_config *c, uint sideset_base) {
-    valid_params_if(PIO, sideset_base < 32);
-    c->pinctrl = (c->pinctrl & ~PIO_SM0_PINCTRL_SIDESET_BASE_BITS) |
-                 (sideset_base << PIO_SM0_PINCTRL_SIDESET_BASE_LSB);
+   //valid_params_if(PIO, sideset_base < 32);
+   c->pinctrl = (c->pinctrl & ~PIO_SM0_PINCTRL_SIDESET_BASE_BITS) |
+                (sideset_base << PIO_SM0_PINCTRL_SIDESET_BASE_LSB);
 }
-
+//
 /*! \brief Set the 'sideset' options in a state machine configuration
  *  \ingroup sm_config
  *
@@ -189,16 +191,16 @@ static inline void sm_config_set_sideset_pins(pio_sm_config *c, uint sideset_bas
  * \param optional True if the topmost side set bit is used as a flag for whether to apply side set on that instruction
  * \param pindirs True if the side set affects pin directions rather than values
  */
-// static inline void sm_config_set_sideset(pio_sm_config *c, uint bit_count, bool optional, bool pindirs) {
-//     valid_params_if(PIO, bit_count <= 5);
-//     valid_params_if(PIO, !optional || bit_count >= 1);
-//     c->pinctrl = (c->pinctrl & ~PIO_SM0_PINCTRL_SIDESET_COUNT_BITS) |
-//                  (bit_count << PIO_SM0_PINCTRL_SIDESET_COUNT_LSB);
+static inline void sm_config_set_sideset(pio_sm_config *c, uint bit_count, bool optional, bool pindirs) {
+    //valid_params_if(PIO, bit_count <= 5);
+    //valid_params_if(PIO, !optional || bit_count >= 1);
+    c->pinctrl = (c->pinctrl & ~PIO_SM0_PINCTRL_SIDESET_COUNT_BITS) |
+                 (bit_count << PIO_SM0_PINCTRL_SIDESET_COUNT_LSB);
 
-//     c->execctrl = (c->execctrl & ~(PIO_SM0_EXECCTRL_SIDE_EN_BITS | PIO_SM0_EXECCTRL_SIDE_PINDIR_BITS)) |
-//                   (bool_to_bit(optional) << PIO_SM0_EXECCTRL_SIDE_EN_LSB) |
-//                   (bool_to_bit(pindirs) << PIO_SM0_EXECCTRL_SIDE_PINDIR_LSB);
-// }
+    c->execctrl = (c->execctrl & ~(PIO_SM0_EXECCTRL_SIDE_EN_BITS | PIO_SM0_EXECCTRL_SIDE_PINDIR_BITS)) |
+                  (bool_to_bit(optional) << PIO_SM0_EXECCTRL_SIDE_EN_LSB) |
+                  (bool_to_bit(pindirs) << PIO_SM0_EXECCTRL_SIDE_PINDIR_LSB);
+}
 
 /*! \brief Set the state machine clock divider (from integer and fractional parts - 16:8) in a state machine configuration
  *  \ingroup sm_config
@@ -213,12 +215,12 @@ static inline void sm_config_set_sideset_pins(pio_sm_config *c, uint sideset_bas
  * \param div_frac Fractional part in 1/256ths
  * \sa sm_config_set_clkdiv()
  */
-// static inline void sm_config_set_clkdiv_int_frac(pio_sm_config *c, uint16_t div_int, uint8_t div_frac) {
-//     invalid_params_if(PIO, div_int == 0 && div_frac != 0);
-//     c->clkdiv =
-//             (((uint)div_frac) << PIO_SM0_CLKDIV_FRAC_LSB) |
-//             (((uint)div_int) << PIO_SM0_CLKDIV_INT_LSB);
-// }
+static inline void sm_config_set_clkdiv_int_frac(pio_sm_config *c, uint16_t div_int, uint8_t div_frac) {
+//    invalid_params_if(PIO, div_int == 0 && div_frac != 0);
+    c->clkdiv =
+            (((uint)div_frac) << PIO_SM0_CLKDIV_FRAC_LSB) |
+            (((uint)div_int) << PIO_SM0_CLKDIV_INT_LSB);
+}
 
 // static inline void pio_calculate_clkdiv_from_float(float div, uint16_t *div_int, uint8_t *div_frac) {
 //     valid_params_if(PIO, div >= 1 && div <= 65536);
@@ -248,8 +250,8 @@ static inline void sm_config_set_sideset_pins(pio_sm_config *c, uint sideset_bas
 static inline void sm_config_set_clkdiv(pio_sm_config *c, float div) {
     uint16_t div_int;
     uint8_t div_frac;
-    pio_calculate_clkdiv_from_float(div, &div_int, &div_frac);
-    sm_config_set_clkdiv_int_frac(c, div_int, div_frac);
+    //pio_calculate_clkdiv_from_float(div, &div_int, &div_frac);
+    //sm_config_set_clkdiv_int_frac(c, div_int, div_frac);
 }
 
 /*! \brief Set the wrap addresses in a state machine configuration
@@ -260,13 +262,13 @@ static inline void sm_config_set_clkdiv(pio_sm_config *c, float div) {
  * \param wrap        the instruction memory address after which to set the program counter to wrap_target
  *                    if the instruction does not itself update the program_counter
  */
-// static inline void sm_config_set_wrap(pio_sm_config *c, uint wrap_target, uint wrap) {
-//     valid_params_if(PIO, wrap < PIO_INSTRUCTION_COUNT);
-//     valid_params_if(PIO, wrap_target < PIO_INSTRUCTION_COUNT);
-//     c->execctrl = (c->execctrl & ~(PIO_SM0_EXECCTRL_WRAP_TOP_BITS | PIO_SM0_EXECCTRL_WRAP_BOTTOM_BITS)) |
-//                   (wrap_target << PIO_SM0_EXECCTRL_WRAP_BOTTOM_LSB) |
-//                   (wrap << PIO_SM0_EXECCTRL_WRAP_TOP_LSB);
-// }
+static inline void sm_config_set_wrap(pio_sm_config *c, uint wrap_target, uint wrap) {
+    //valid_params_if(PIO, wrap < PIO_INSTRUCTION_COUNT);
+    //valid_params_if(PIO, wrap_target < PIO_INSTRUCTION_COUNT);
+    c->execctrl = (c->execctrl & ~(PIO_SM0_EXECCTRL_WRAP_TOP_BITS | PIO_SM0_EXECCTRL_WRAP_BOTTOM_BITS)) |
+                    (wrap_target << PIO_SM0_EXECCTRL_WRAP_BOTTOM_LSB) |
+                    (wrap << PIO_SM0_EXECCTRL_WRAP_TOP_LSB);
+}
 
 /*! \brief Set the 'jmp' pin in a state machine configuration
  *  \ingroup sm_config
@@ -287,9 +289,9 @@ static inline void sm_config_set_clkdiv(pio_sm_config *c, float div) {
  * \param shift_right true to shift ISR to right, false to shift ISR to left
  * \param autopush whether autopush is enabled
  * \param push_threshold threshold in bits to shift in before auto/conditional re-pushing of the ISR
- */
+//  */
 static inline void sm_config_set_in_shift(pio_sm_config *c, bool shift_right, bool autopush, uint push_threshold) {
-    valid_params_if(PIO, push_threshold <= 32);
+    //valid_params_if(PIO, push_threshold <= 32);
     c->shiftctrl = (c->shiftctrl &
                     ~(PIO_SM0_SHIFTCTRL_IN_SHIFTDIR_BITS |
                       PIO_SM0_SHIFTCTRL_AUTOPUSH_BITS |
@@ -307,16 +309,16 @@ static inline void sm_config_set_in_shift(pio_sm_config *c, bool shift_right, bo
  * \param autopull whether autopull is enabled
  * \param pull_threshold threshold in bits to shift out before auto/conditional re-pulling of the OSR
  */
-// static inline void sm_config_set_out_shift(pio_sm_config *c, bool shift_right, bool autopull, uint pull_threshold) {
-//     valid_params_if(PIO, pull_threshold <= 32);
-//     c->shiftctrl = (c->shiftctrl &
-//                     ~(PIO_SM0_SHIFTCTRL_OUT_SHIFTDIR_BITS |
-//                       PIO_SM0_SHIFTCTRL_AUTOPULL_BITS |
-//                       PIO_SM0_SHIFTCTRL_PULL_THRESH_BITS)) |
-//                    (bool_to_bit(shift_right) << PIO_SM0_SHIFTCTRL_OUT_SHIFTDIR_LSB) |
-//                    (bool_to_bit(autopull) << PIO_SM0_SHIFTCTRL_AUTOPULL_LSB) |
-//                    ((pull_threshold & 0x1fu) << PIO_SM0_SHIFTCTRL_PULL_THRESH_LSB);
-// }
+static inline void sm_config_set_out_shift(pio_sm_config *c, bool shift_right, bool autopull, uint pull_threshold) {
+    //valid_params_if(PIO, pull_threshold <= 32);
+    c->shiftctrl = (c->shiftctrl &
+                    ~(PIO_SM0_SHIFTCTRL_OUT_SHIFTDIR_BITS |
+                      PIO_SM0_SHIFTCTRL_AUTOPULL_BITS |
+                      PIO_SM0_SHIFTCTRL_PULL_THRESH_BITS)) |
+                   (bool_to_bit(shift_right) << PIO_SM0_SHIFTCTRL_OUT_SHIFTDIR_LSB) |
+                   (bool_to_bit(autopull) << PIO_SM0_SHIFTCTRL_AUTOPULL_LSB) |
+                   ((pull_threshold & 0x1fu) << PIO_SM0_SHIFTCTRL_PULL_THRESH_LSB);
+}
 
 /*! \brief Setup the FIFO joining in a state machine configuration
  *  \ingroup sm_config
@@ -382,14 +384,14 @@ static inline void sm_config_set_in_shift(pio_sm_config *c, bool shift_right, bo
  *
  * \return the default state machine configuration which can then be modified.
  */
-// static inline pio_sm_config pio_get_default_sm_config(void) {
-//     pio_sm_config c = {0, 0, 0, 0};
-//     sm_config_set_clkdiv_int_frac(&c, 1, 0);
-//     sm_config_set_wrap(&c, 0, 31);
-//     sm_config_set_in_shift(&c, true, false, 32);
-//     sm_config_set_out_shift(&c, true, false, 32);
-//     return c;
-// }
+static inline pio_sm_config pio_get_default_sm_config(void) {
+    pio_sm_config c = {0, 0, 0, 0};
+    sm_config_set_clkdiv_int_frac(&c, 1, 0);
+    sm_config_set_wrap(&c, 0, 31);
+    sm_config_set_in_shift(&c, true, false, 32);
+    sm_config_set_out_shift(&c, true, false, 32);
+    return c;
+}
 
 /*! \brief Apply a state machine configuration to a state machine
  *  \ingroup hardware_pio
@@ -432,11 +434,11 @@ static inline void sm_config_set_in_shift(pio_sm_config *c, bool shift_right, bo
  * \param pin the GPIO pin whose function select to set
  */
 
-// static inline void pio_gpio_init(PIO pio, uint pin) {
-//     check_pio_param(pio);
-//     valid_params_if(PIO, pin < 32);
-//     gpio_set_function(pin, pio == pio0 ? GPIO_FUNC_PIO0 : GPIO_FUNC_PIO1);
-// }
+void pio_gpio_init(PIO pio, uint pin) {
+    //check_pio_param(pio);
+    //valid_params_if(PIO, pin < 32);
+    gpio_set_function(pin, pio == pio0 ? GPIO_FUNC_PIO0 : GPIO_FUNC_PIO1);
+}
 
 /*! \brief Return the DREQ to use for pacing transfers to/from a particular state machine FIFO
  *  \ingroup hardware_pio
@@ -461,7 +463,7 @@ typedef struct pio_program {
     const uint16_t *instructions;
     uint8_t length;
     int8_t origin; // required instruction memory origin or -1
-} __packed pio_program_t;
+} pio_program_t;
 
 /*! \brief Determine whether the given program can (at the time of the call) be loaded onto the PIO instance
  *  \ingroup hardware_pio
@@ -511,7 +513,7 @@ uint pio_add_program(PIO pio, const pio_program_t *program);
  * \param program the program definition
  * \param loaded_offset the loaded offset returned when the program was added
  */
-void pio_remove_program(PIO pio, const pio_program_t *program, uint loaded_offset);
+//void pio_remove_program(PIO pio, const pio_program_t *program, uint loaded_offset);
 
 /*! \brief Clears all of a PIO instance's instruction memory
  *  \ingroup hardware_pio
@@ -546,9 +548,9 @@ void pio_sm_init(PIO pio, uint sm, uint initial_pc, const pio_sm_config *config)
  * \param sm State machine index (0..3)
  * \param enabled true to enable the state machine; false to disable
  */
-static inline void pio_sm_set_enabled(PIO pio, uint sm, bool enabled) {
-    check_pio_param(pio);
-    check_sm_param(sm);
+void pio_sm_set_enabled(PIO pio, uint sm, bool enabled) {
+    //check_pio_param(pio);
+    //check_sm_param(sm);
     pio->ctrl = (pio->ctrl & ~(1u << sm)) | (bool_to_bit(enabled) << sm);
 }
 
@@ -959,13 +961,13 @@ enum pio_interrupt_source {
  * \param sm State machine index (0..3)
  * \param in_base 0-31 First pin to use as input
  */
-static inline void pio_sm_set_in_pins(PIO pio, uint sm, uint in_base) {
-    check_pio_param(pio);
-    check_sm_param(sm);
-    valid_params_if(PIO, in_base < 32);
-    pio->sm[sm].pinctrl = (pio->sm[sm].pinctrl & ~PIO_SM0_PINCTRL_IN_BASE_BITS) |
-                 (in_base << PIO_SM0_PINCTRL_IN_BASE_LSB);
-}
+//static inline void pio_sm_set_in_pins(PIO pio, uint sm, uint in_base) {
+    //check_pio_param(pio);
+    //check_sm_param(sm);
+    //valid_params_if(PIO, in_base < 32);
+  //  pio->sm[sm].pinctrl = (pio->sm[sm].pinctrl & ~PIO_SM0_PINCTRL_IN_BASE_BITS) |
+//                  (in_base << PIO_SM0_PINCTRL_IN_BASE_LSB);
+// }
 
 /*! \brief Set the current 'sideset' pins for a state machine
  *  \ingroup hardware_pio
@@ -976,13 +978,13 @@ static inline void pio_sm_set_in_pins(PIO pio, uint sm, uint in_base) {
  * \param sm State machine index (0..3)
  * \param sideset_base 0-31 base pin for 'side set'
  */
-static inline void pio_sm_set_sideset_pins(PIO pio, uint sm, uint sideset_base) {
-    check_pio_param(pio);
-    check_sm_param(sm);
-    valid_params_if(PIO, sideset_base < 32);
-    pio->sm[sm].pinctrl = (pio->sm[sm].pinctrl & ~PIO_SM0_PINCTRL_SIDESET_BASE_BITS) |
-                 (sideset_base << PIO_SM0_PINCTRL_SIDESET_BASE_LSB);
-}
+//static inline void pio_sm_set_sideset_pins(PIO pio, uint sm, uint sideset_base) {
+    //check_pio_param(pio);
+    //check_sm_param(sm);
+    //valid_params_if(PIO, sideset_base < 32);
+//     pio->sm[sm].pinctrl = (pio->sm[sm].pinctrl & ~PIO_SM0_PINCTRL_SIDESET_BASE_BITS) |
+//                  (sideset_base << PIO_SM0_PINCTRL_SIDESET_BASE_LSB);
+// }
 
 /*! \brief Write a word of data to a state machine's TX FIFO
  *  \ingroup hardware_pio
@@ -1297,7 +1299,7 @@ void pio_sm_set_pindirs_with_mask(PIO pio, uint sm, uint32_t pin_dirs, uint32_t 
  * \param required if true the function will panic if none are available
  * \return the state machine index or -1 if required was false, and none were free
  */
-//int pio_claim_unused_sm(PIO pio, bool required);
+int pio_claim_unused_sm(PIO pio, bool required);
 
 /*! \brief Determine if a PIO state machine is claimed
  *  \ingroup hardware_pio
