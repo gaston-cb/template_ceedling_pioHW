@@ -4,7 +4,7 @@
 #include "stdint.h"
 #include "stdlib.h"
 #include "AMT23.h"
-#include "portsRP2040.c"
+#include "portsRP2040.h"
 /// res14b 0.00006
 #define MAX14BITS 16383 
 
@@ -30,9 +30,7 @@ void initamt(uint port_clk, uint port_data){
 /// @brief inicia la fsm para realizar la lectura del 
 void start_read(){  
   set_start_read_encoder_amt() ; 
-  set_start_read_kubler() ; 
   startSM() ; 
-
 }
 
 

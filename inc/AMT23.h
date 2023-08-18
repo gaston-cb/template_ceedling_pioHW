@@ -8,14 +8,23 @@ typedef enum{
   COUNTER_STILL ,
 }sentido_t ; 
 
+typedef struct 
+{
+  uint16_t raw_data_zero; 
+  float angle_zero_position ; 
+}zero_t ;
+
+
 typedef struct{
-  uint16_t rawdata ; 
-  uint16_t value_data ; 
-  uint16_t value_set_zero ; 
+  uint16_t  rawdata ; 
+  uint16_t  value_data ; 
+  zero_t    value_set_zero ; 
   sentido_t sentido ; 
-  float angle       ; 
-  // 0-360º -> 8bits , 
+  float     angle   ; 
 }amt223bv_t; 
+
+
+
 
 typedef unsigned int uint ; 
 void initamt(uint port_clk, uint port_data) ; 

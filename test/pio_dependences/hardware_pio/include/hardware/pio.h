@@ -12,7 +12,7 @@
 // #include "hardware/address_mapped.h"
 #include "hardware/structs/pio.h"
 #include <stdbool.h>
-// #include "hardware/gpio.h"
+#include "pio_dependences/hardware_gpio/include/hardware/gpio.h"
 // #include "hardware/regs/dreq.h"
 // #include "hardware/pio_instructions.h"
 
