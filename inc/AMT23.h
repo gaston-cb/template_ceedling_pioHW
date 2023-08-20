@@ -13,8 +13,6 @@ typedef enum {
   ANTICLOCKWISE, 
 }reference_t ; 
 
-
-
 typedef struct{
   uint16_t raw_data; 
   float angle_zero ; 

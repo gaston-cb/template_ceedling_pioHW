@@ -38,7 +38,7 @@ static read_correct_t checkBytes(uint16_t check_value) ;
 static void transform_coordinates(uint16_t read_angle) ; 
 TYPE_DATA amt23_t encoder_data; 
 static calibration_fn user_function ; 
-
+static uint8_t fixed_point[2] ; 
 
 
 
@@ -83,7 +83,7 @@ void set_cero_amt(read_correct_t *lectura){
   } 
 
   encoder_data.zero_position.raw_data   =  data_encoder & READ_BITS_ENCODER ; 
-  encoder_data.zero_position.angle_zero =  (float)encoder_data.zero_position.raw_data *(360.0/0x3FFF) ; 
+  encoder_data.zero_position.angle_zero =  (float)encoder_data.zero_position.raw_data *(360.0/(0x3FFFu+1u)) ; 
 }
 
 
@@ -129,12 +129,12 @@ static read_correct_t checkBytes(uint16_t check_value){
 void transform_coordinates(uint16_t read_angle){ 
   
 
-  if (encoder_data.reference == ANTICLOCKWISE){
-    encoder_data.raw_data = (MAX14BITS + read_angle - encoder_data.zero_position.raw_data)%(MAX14BITS) ; 
-    encoder_data.angle_position    = (float) encoder_data.raw_data *(360.0/MAX14BITS) ; 
+  if (encoder_data.reference == CLOCKWISE){
+    encoder_data.raw_data = (16384 + encoder_data.zero_position.raw_data - read_angle)%(16384) ; 
+    encoder_data.angle_position    = (float) encoder_data.raw_data *(360.0/(16384)) ; 
   }else if (encoder_data.reference == ANTICLOCKWISE){ 
-    encoder_data.raw_data = (MAX14BITS - (read_angle - encoder_data.zero_position.raw_data)+ MAX14BITS )%(MAX14BITS) ; 
-    encoder_data.angle_position   = (float) encoder_data.raw_data *(360.0/MAX14BITS) ; 
+    encoder_data.raw_data = ( (16384 + read_angle) - encoder_data.zero_position.raw_data)%(16384) ; 
+    encoder_data.angle_position    = (float) encoder_data.raw_data *(360.0/(16384)) ;  
   }
 
 
