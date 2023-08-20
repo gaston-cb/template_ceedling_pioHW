@@ -474,3 +474,34 @@ void test_equal_zero_clockwise(void){
     printf("line: %d - position Zero: %f - angle_read: %f, transform %f\r\n",__LINE__,angle_zero,angle,data_read_fn.angle_position); 
 }
 
+/**********************TESTING DE CALLBACK ********************/
+void calibration_test(amt23_t *testing){ 
+    testing->raw_data = testing->raw_data + 10 ; 
+}
+
+
+void test_callback_function(void){ 
+    read_correct_t lect ; 
+    amt23_t data_read_fn ;
+    uint16_t raw_zero = 2500 ; 
+    uint16_t get_value_encoder = 8630 ; 
+    
+    initHW_Ignore() ; 
+    initamt(PORT_CLK,PORT_DATA,user_test,ANTICLOCKWISE) ; 
+    return_data_pio_sm(generate_values_amt(raw_zero)) ; 
+    set_cero_amt(&lect); 
+    return_data_pio_sm(generate_values_amt(get_value_encoder)) ; 
+
+    read_encoder_amt(&data_read_fn, &lect) ; 
+    TEST_ASSERT_EQUAL_MEMORY (&data_read_fn,&encoder_data, sizeof(amt23_t)) ; 
+    printf("reset test ") ; 
+    resetTest() ; 
+    user_test = &calibration_test ; 
+    initHW_Ignore() ; 
+    initamt(PORT_CLK,PORT_DATA,user_test,ANTICLOCKWISE) ; 
+    return_data_pio_sm(generate_values_amt(raw_zero)) ; 
+    set_cero_amt(&lect); 
+    return_data_pio_sm(generate_values_amt(get_value_encoder)) ; 
+    read_encoder_amt(&data_read_fn, &lect) ; 
+    TEST_ASSERT_EQUAL (data_read_fn.raw_data,encoder_data.raw_data + 10) ; 
+}

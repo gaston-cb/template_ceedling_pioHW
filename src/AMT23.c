@@ -65,8 +65,10 @@ void read_encoder_amt(amt23_t *read_encoder,read_correct_t *read){
 
   transform_coordinates(data_encoder& READ_BITS_ENCODER) ; 
   memcpy(read_encoder,&encoder_data, sizeof(encoder_data)) ; 
-
-
+  if (user_function ==NULL){
+    return ; 
+  }
+  user_function(read_encoder) ; 
 
 }
 
