@@ -1,13 +1,11 @@
 #include "stdio.h"
-#include "portsRP2040.h"
+//#include "portsRP2040.h"
 
 //#include "hardware/pio.h"
 #include "pio_dependences/hardware_pio/include/hardware/pio.h"
 #include "portsPIO.pio.h"
 #include "pio_dependences/hardware_irq/include/hardware/irq.h"
 
-static PIO pioSM = pio0 ; 
-static uint state_machine_number ;  
 #define NUMBER_BITS 15 
 
 /// ODD BITS    k1 k0 h5 h4 h3 h2 h1 h0 , l7,l6,l5,l5,l3,l2,l1,l0  
@@ -27,24 +25,35 @@ static uint state_machine_number ;
 #define L4_MASK 0x0010 ///0b 0000 0000 | 0001 0000
 #define L2_MASK 0x0004 ///0b 0000 0000 | 0000 0100
 #define L0_MASK 0x0001 ///0b 0000 0000 | 0000 0001
-
 #define READ_BITS_ENCODER 0x3FFF
 
-typedef ENUM{
-    IDLE 
-    START, 
-    END, 
-}st_irq ; 
 
-static st_irq irq_status =IDLE ; 
+typedef enum{
+    IDLE, 
+    START,
+    END , 
+}irq_read_status ; 
+
+
+static PIO pioSM = pio0 ; 
+static volatile uint     state_machine_number ;  
+static volatile uint16_t read_encoder ; 
+static irq_read_status irq_wait;  
+
+uint16_t get_data(void)
+{ 
+    return read_encoder;     
+}
+
 
 
 
 void cb_pio_irq(void){
     pioSM->irq = 0x01 ; 
-    uint32_t data = pioSM->rxf[state_machine_number] ;  
-    uint16_t read_encoder = (uint16_t) data ;   
-    uint16_t position = read_encoder & READ_BITS_ENCODER ; 
+    read_encoder =(uint16_t )pioSM->rxf[state_machine_number] ; 
+    irq_wait = END; 
+    //uint16_t read_encoder = (uint16_t) data ;   
+    //uint16_t position = read_encoder & READ_BITS_ENCODER ; 
     // uint8_t k1 = (uint8_t) ((read_encoder & 0x8000 ) >>15)  ; ///odd_bit  
     // uint8_t k0 = (uint8_t) ((read_encoder & 0x4000 ) >>14)  ; ///even_bit  
     // uint8_t check_bits_odd = ! (uint8_t)  (     
@@ -80,7 +89,7 @@ void cb_pio_irq(void){
 
 
 
-void initHW(int port_clk,int port_data) { 
+void initHW(uint8_t port_clk,uint8_t port_data) { 
     state_machine_number = pio_claim_unused_sm(pioSM, true);
     uint offset = pio_add_program(pioSM, &AMT223BV_program);
     AMT223BV_init_hw(pioSM, state_machine_number, offset,16,port_clk,port_data);    
@@ -94,5 +103,8 @@ void initHW(int port_clk,int port_data) {
 
 
 void startSM(){
-    pioSM->irq = 0x04 ; 
+    irq_wait = START ; 
+    pioSM->irq = 0x04 ;
+    while(irq_wait !=END );
+    irq_wait =IDLE ;  
 }

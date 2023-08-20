@@ -1,5 +1,6 @@
 {
     "files.associations": {
-        "pio.h": "c"
+        "pio.h": "c",
+        "values.h": "c"
     }
 }

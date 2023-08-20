@@ -1,35 +1,74 @@
 //#include "pico/stdlib.h"
-#define AMT223_12BITS 
-#define AMT223_14BITS 
+#include <stdint.h>
 #define BINARY_DEC  0.021974 
-typedef enum{
-  COUNTER_CLOCKWISE ,
-  COUNTER_ANTICLOCKWISE, 
-  COUNTER_STILL ,
-}sentido_t ; 
+typedef void (*calibration_fn)(uint16_t) ; 
 
-typedef struct 
-{
-  uint16_t raw_data_zero; 
-  float angle_zero_position ; 
-}zero_t ;
+typedef enum {
+  OK, 
+  ERROR, 
+}read_correct_t ; 
+
+typedef enum {
+  CLOCKWISE, 
+  ANTICLOCKWISE, 
+}reference_t ; 
+
 
 
 typedef struct{
-  uint16_t  rawdata ; 
-  uint16_t  value_data ; 
-  zero_t    value_set_zero ; 
-  sentido_t sentido ; 
-  float     angle   ; 
-}amt223bv_t; 
+  uint16_t raw_data; 
+  float angle_zero ; 
+}zero_t ; 
+
+
+typedef struct{
+  uint16_t raw_data ; 
+  float angle_north ; 
+}north_t ; 
+
+
+typedef enum {
+  CCW,   // counter-clockwise  -- al reves agujas reloj
+  CW,    // clockwise -- agujas del reloj
+  STILL, 
+}turn_sense_t;
 
 
 
 
-typedef unsigned int uint ; 
-void initamt(uint port_clk, uint port_data) ; 
-volatile void read_encoder_amt(uint16_t *raw_data) ; 
-void start_read() ; 
-uint16_t get_angle(amt223bv_t *amt); 
-uint8_t get_stat_read_encoder_amt() ; 
-void setZero_amt(); 
+typedef struct 
+{
+  uint8_t port_clk ; 
+  uint8_t port_data ; 
+  uint8_t port_cs ; 
+  north_t nort_position ;  /// refer to absolute position  
+  zero_t zero_position ; 
+  uint16_t raw_data ;      /// refer to zero position 
+  reference_t reference ; 
+  turn_sense_t turning; 
+  float angle_position ;   /// refer to zero position 
+}amt23_t;
+
+
+
+
+
+
+
+// inicializacion 
+// setear cero 
+// lectura 
+// setear referencia 
+
+
+
+void initamt(uint8_t port_clk, uint8_t port_data, calibration_fn user,reference_t reference) ; 
+void read_encoder_amt(amt23_t *read_encoder,read_correct_t *read) ; 
+void set_cero_amt(read_correct_t *lect) ; 
+
+
+// volatile void read_encoder_amt(uint16_t *raw_data) ; 
+// void start_read() ; 
+// uint16_t get_angle(amt223bv_t *amt); 
+// uint8_t get_stat_read_encoder_amt() ; 
+// void setZero_amt(); 

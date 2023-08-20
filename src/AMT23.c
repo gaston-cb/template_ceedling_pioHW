@@ -1,93 +1,144 @@
 #include <stdio.h>
 #include <string.h>
-//#include "pico/stdlib.h"
-#include "stdint.h"
-#include "stdlib.h"
+
 #include "AMT23.h"
 #include "portsRP2040.h"
-/// res14b 0.00006
-#define MAX14BITS 16383 
+
+#define MAX14BITS 16383u // 2**14 
+#ifndef TEST
+  #define TYPE_DATA static 
+#else
+  #define TYPE_DATA   
+#endif 
+
+#define NUMBER_BITS 15 
+
+/// ODD BITS    k1 k0 h5 h4 h3 h2 h1 h0 , l7,l6,l5,l5,l3,l2,l1,l0  
+#define H5_MASK 0x2000 ///0b 0010 0000 | 0000 0000   
+#define H3_MASK 0x0800 ///0b 0000 1000 | 0000 0000
+#define H1_MASK 0x0200 ///0b 0000 0010 | 0000 0000
+#define L7_MASK 0x0080 ///0b 0000 0000 | 1000 0000
+#define L5_MASK 0x0020 ///0b 0000 0000 | 0010 0000
+#define L3_MASK 0x0008 ///0b 0000 0000 | 0000 1000
+#define L1_MASK 0x0002 ///0b 0000 0000 | 0000 0010
+
+/// ODD BITS                 k1 k0 h5 h4 h3 h2 h1 h0 , l7,l6,l5,l5,l3,l2,l1,l0  
+#define H4_MASK 0x1000 ///0b 0001 0000 | 0000 0000   
+#define H2_MASK 0x0400 ///0b 0000 0100 | 0000 0000
+#define H0_MASK 0x0100 ///0b 0000 0001 | 0000 0000
+#define L6_MASK 0x0040 ///0b 0000 0000 | 0100 0000
+#define L4_MASK 0x0010 ///0b 0000 0000 | 0001 0000
+#define L2_MASK 0x0004 ///0b 0000 0000 | 0000 0100
+#define L0_MASK 0x0001 ///0b 0000 0000 | 0000 0001
+#define READ_BITS_ENCODER 0x3FFF
+
+
+
+static read_correct_t checkBytes(uint16_t check_value) ; 
+static void transform_coordinates(uint16_t read_angle) ; 
+TYPE_DATA amt23_t encoder_data; 
+static calibration_fn user_function ; 
 
 
 
 
-static void set_start_read_encoder_amt() ; 
-static void set_end_read_encoder_amt() ; 
 
-static uint16_t convert_angle_to_zero(uint16_t d2c);
-static uint16_t rawdata_last  = 0 ; 
-static amt223bv_t encoder ; 
-static uint8_t end_read_encoder_amt  = 0; 
-
-
-
-void initamt(uint port_clk, uint port_data){
-  encoder.rawdata = 0 ;  
+void initamt(uint8_t port_clk, uint8_t port_data,calibration_fn user,reference_t reference){
+  user_function = user ; 
+  encoder_data.port_clk = port_clk ; 
+  encoder_data.port_data = port_data ; 
+  encoder_data.port_cs = port_clk+1  ; 
+  encoder_data.reference = reference ; 
   initHW(port_clk,port_data)  ; 
 }
 
 
-/// @brief inicia la fsm para realizar la lectura del 
-void start_read(){  
-  set_start_read_encoder_amt() ; 
+void read_encoder_amt(amt23_t *read_encoder,read_correct_t *read){ 
+  uint16_t data_encoder; 
   startSM() ; 
-}
-
-
-/**
- * @brief Set the Zero object
- * 
- */
-void setZero_amt(){ 
-  encoder.value_set_zero = encoder.rawdata  ;  ///set a zero position to a measurement angle 
-  rawdata_last = convert_angle_to_zero(encoder.rawdata) ;
-  encoder.rawdata = rawdata_last ; 
-}
-
-uint16_t get_direction(){ 
+  data_encoder = get_data(); //blocking funcion 
   
-  return encoder.sentido ; 
-
-} 
-
-uint16_t get_angle(amt223bv_t *amt)
-{ 
-  ///FIXME: add a converter function  
-  if ( encoder.rawdata > rawdata_last ){ 
-    encoder.sentido = COUNTER_ANTICLOCKWISE ; 
-  }else if( encoder.rawdata < rawdata_last  ){
-    encoder.sentido = COUNTER_CLOCKWISE ; 
-  }else if (rawdata_last == encoder.rawdata){
-    encoder.sentido = COUNTER_STILL ;
+  if (checkBytes(data_encoder)== ERROR){ 
+    *read = ERROR ; 
+    return ; 
   }
-  encoder.angle = (encoder.rawdata)*(360.0/MAX14BITS) ; 
-  memcpy(amt,&encoder,sizeof(encoder)) ; 
-  return encoder.rawdata ;  
+
+  transform_coordinates(data_encoder& READ_BITS_ENCODER) ; 
+  memcpy(read_encoder,&encoder_data, sizeof(encoder_data)) ; 
+
+
+
 }
 
-volatile void read_encoder_amt(uint16_t *raw_data){ 
-  set_end_read_encoder_amt() ; 
-  if (raw_data !=NULL){ 
-    rawdata_last    = encoder.rawdata ; 
-    encoder.rawdata = convert_angle_to_zero(*raw_data)    ; 
+
+void set_cero_amt(read_correct_t *lectura){ 
+  uint16_t data_encoder ; 
+  startSM() ; 
+  data_encoder = get_data() ; 
+  if (checkBytes(data_encoder)==ERROR){ 
+    *lectura = ERROR ; 
+    return ; 
+  }else { 
+    *lectura = OK; 
+  } 
+
+  encoder_data.zero_position.raw_data   =  data_encoder & READ_BITS_ENCODER ; 
+  encoder_data.zero_position.angle_zero =  (float)encoder_data.zero_position.raw_data *(360.0/0x3FFF) ; 
+}
+
+
+
+static read_correct_t checkBytes(uint16_t check_value){
+    read_correct_t report_check = ERROR ; //RETURN VARIABLE 
+    uint8_t k1 = (uint8_t) ((check_value & 0x8000 ) >>15)  ; ///odd_bit  
+    uint8_t k0 = (uint8_t) ((check_value & 0x4000 ) >>14)  ; ///even_bit  
+    uint8_t check_bits_odd = ! (uint8_t)  (     
+        ((check_value &H5_MASK)>>13) ^    
+        ((check_value &H3_MASK)>>11) ^  
+        ((check_value &H1_MASK)>>9) ^  
+        ((check_value &L7_MASK)>>7) ^  
+        ((check_value &L5_MASK)>>5) ^  
+        ((check_value &L3_MASK)>>3) ^  
+        ((check_value &L1_MASK)>>1)   
+    
+    ); 
+    uint8_t check_bits_even  = !(uint8_t)  ( 
+        
+        ((check_value &H4_MASK)>>12) ^    
+        ((check_value &H2_MASK)>>10) ^  
+        ((check_value &H0_MASK)>>8)  ^  
+        ((check_value &L6_MASK)>>6)  ^  
+        ((check_value &L4_MASK)>>4)  ^  
+        ((check_value &L2_MASK)>>2)  ^  
+        ((check_value &L0_MASK))   
+    
+    );  
+
+    if (k1 == check_bits_odd && k0 == check_bits_even){
+      report_check = OK ; 
+    }
+    return report_check ; 
+}
+
+
+
+
+
+
+
+void transform_coordinates(uint16_t read_angle){ 
+  
+
+  if (encoder_data.reference == ANTICLOCKWISE){
+    encoder_data.raw_data = (MAX14BITS + read_angle - encoder_data.zero_position.raw_data)%(MAX14BITS) ; 
+    encoder_data.angle_position    = (float) encoder_data.raw_data *(360.0/MAX14BITS) ; 
+  }else if (encoder_data.reference == ANTICLOCKWISE){ 
+    encoder_data.raw_data = (MAX14BITS - (read_angle - encoder_data.zero_position.raw_data)+ MAX14BITS )%(MAX14BITS) ; 
+    encoder_data.angle_position   = (float) encoder_data.raw_data *(360.0/MAX14BITS) ; 
   }
-}
 
 
 
 
-static uint16_t convert_angle_to_zero(uint16_t d2c){ 
-  return (d2c - encoder.value_set_zero +  MAX14BITS)%MAX14BITS ;  
-}
 
-static void set_start_read_encoder_amt(){ 
-  end_read_encoder_amt = 1 ; 
-}
-
-static void set_end_read_encoder_amt(){ 
-  end_read_encoder_amt = 0 ; 
-}
-
-uint8_t get_stat_read_encoder_amt(){ 
-  return end_read_encoder_amt ; 
 }
